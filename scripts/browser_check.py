@@ -37,7 +37,7 @@ def main():
                 route="/" if source.stem=="index" else "/"+source.stem+"/"
                 page.goto(base+route,wait_until="networkidle")
                 assert page.locator("body").get_attribute("data-md-color-scheme")=="slate"
-                assert page.evaluate("getComputedStyle(document.body).backgroundColor")=="rgb(23, 25, 29)"
+                assert page.evaluate("getComputedStyle(document.body).backgroundColor")=="rgb(17, 19, 22)"
                 assert page.locator('[data-md-component="palette"]').count()==0
                 assert page.locator(".book-wordmark").inner_text()=="Positional Encoding in LLMs"
                 assert "Positional Encoding in LLMs" in page.title()
@@ -55,7 +55,7 @@ def main():
             for preference in ["light","dark"]:
                 page.emulate_media(color_scheme=preference)
                 page.reload(wait_until="networkidle")
-                assert page.evaluate("getComputedStyle(document.body).backgroundColor")=="rgb(23, 25, 29)"
+                assert page.evaluate("getComputedStyle(document.body).backgroundColor")=="rgb(17, 19, 22)"
                 assert page.locator('[data-md-component="palette"]').count()==0
             page.locator(".book-sections summary").click()
             assert page.locator(".book-sections nav a").count()==16
@@ -75,7 +75,7 @@ def main():
             report["design"]=dict(permanent_dark=True,no_palette_control=True,system_preference_independent=True,
                                   svg_figures=True,section_menu=True,search=True,mobile=True)
             page.goto(base+"/explorer.html",wait_until="networkidle")
-            assert page.evaluate("getComputedStyle(document.body).backgroundColor")=="rgb(23, 25, 29)"
+            assert page.evaluate("getComputedStyle(document.body).backgroundColor")=="rgb(17, 19, 22)"
             assert page.locator("h1").inner_text()=="Position-dependent rotations and phase similarity"
             original=page.locator("#similarity").inner_text()
             delta=page.locator("#delta").inner_text()
