@@ -1,0 +1,62 @@
+{
+  "spectrum": [
+    {
+      "base": 10.0,
+      "local_distance": 0.4697321182852034,
+      "max_far_similarity": 0.4377729465462852,
+      "far_offset": 10650,
+      "domain": [
+        128,
+        16384
+      ],
+      "dim": 64
+    },
+    {
+      "base": 100.0,
+      "local_distance": 0.3451554269250199,
+      "max_far_similarity": 0.42362997439369726,
+      "far_offset": 9795,
+      "domain": [
+        128,
+        16384
+      ],
+      "dim": 64
+    },
+    {
+      "base": 10000.0,
+      "local_distance": 0.26018843392589674,
+      "max_far_similarity": 0.5303741396175635,
+      "far_offset": 134,
+      "domain": [
+        128,
+        16384
+      ],
+      "dim": 64
+    },
+    {
+      "base": 1000000.0,
+      "local_distance": 0.22574810381731134,
+      "max_far_similarity": 0.7158083649176716,
+      "far_offset": 164,
+      "domain": [
+        128,
+        16384
+      ],
+      "dim": 64
+    }
+  ],
+  "kernel": {
+    "dim": 64,
+    "base": 10000,
+    "zero": 1.0,
+    "at_128": 0.2838532876192801,
+    "at_8192": 0.07856217517391331
+  },
+  "random_content": {
+    "draws": 1024,
+    "seed": 2026,
+    "min_rms": 0.9380858971935077,
+    "max_rms": 1.0647439383601427
+  },
+  "interpretation": "Geometry diagnostics are not trained-model quality metrics."
+}

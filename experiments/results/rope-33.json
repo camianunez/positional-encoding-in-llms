@@ -1,0 +1,200 @@
+{
+  "method": "rope",
+  "seed": 33,
+  "config": {
+    "method": "rope",
+    "vocab": 84,
+    "dim": 64,
+    "heads": 4,
+    "layers": 2,
+    "max_positions": 256,
+    "base": 10000.0
+  },
+  "parameters": 110336,
+  "source_sha256": "57a4de9144a38cc503424057d3b368a494450802ef36d2723d3093a6b89ef708",
+  "curve": [
+    {
+      "step": 100,
+      "task": "lookup",
+      "loss": 2.7377326488494873
+    },
+    {
+      "step": 200,
+      "task": "lookup",
+      "loss": 2.5775372982025146
+    },
+    {
+      "step": 300,
+      "task": "lookup",
+      "loss": 2.578890800476074
+    },
+    {
+      "step": 400,
+      "task": "lookup",
+      "loss": 2.5805413722991943
+    },
+    {
+      "step": 500,
+      "task": "lookup",
+      "loss": 2.4485580921173096
+    },
+    {
+      "step": 600,
+      "task": "lookup",
+      "loss": 2.2744996547698975
+    },
+    {
+      "step": 700,
+      "task": "lookup",
+      "loss": 2.581700086593628
+    },
+    {
+      "step": 800,
+      "task": "lookup",
+      "loss": 2.382155179977417
+    },
+    {
+      "step": 900,
+      "task": "lookup",
+      "loss": 2.5746583938598633
+    },
+    {
+      "step": 1000,
+      "task": "lookup",
+      "loss": 2.5115668773651123
+    },
+    {
+      "step": 1100,
+      "task": "lookup",
+      "loss": 2.32541823387146
+    },
+    {
+      "step": 1200,
+      "task": "lookup",
+      "loss": 2.504530191421509
+    }
+  ],
+  "metrics": [
+    {
+      "task": "lag4",
+      "length": 32,
+      "examples": 768,
+      "correct": 768,
+      "accuracy": 1.0,
+      "nll": 0.0068193305827056365,
+      "answer_perplexity": 1.0068426351612614,
+      "scale": 1.0
+    },
+    {
+      "task": "lag4",
+      "length": 32,
+      "examples": 768,
+      "correct": 55,
+      "accuracy": 0.07161458333333333,
+      "nll": 6.154054522514343,
+      "answer_perplexity": 470.6216698505443,
+      "scale": 4.0
+    },
+    {
+      "task": "lag4",
+      "length": 64,
+      "examples": 768,
+      "correct": 135,
+      "accuracy": 0.17578125,
+      "nll": 4.149181663990021,
+      "answer_perplexity": 63.382111205674505,
+      "scale": 1.0
+    },
+    {
+      "task": "lag4",
+      "length": 64,
+      "examples": 768,
+      "correct": 54,
+      "accuracy": 0.0703125,
+      "nll": 6.096824487050374,
+      "answer_perplexity": 444.4441885709918,
+      "scale": 4.0
+    },
+    {
+      "task": "lag4",
+      "length": 128,
+      "examples": 768,
+      "correct": 56,
+      "accuracy": 0.07291666666666667,
+      "nll": 6.028841118017833,
+      "answer_perplexity": 415.2335437711052,
+      "scale": 1.0
+    },
+    {
+      "task": "lag4",
+      "length": 128,
+      "examples": 768,
+      "correct": 59,
+      "accuracy": 0.07682291666666667,
+      "nll": 6.093025008837382,
+      "answer_perplexity": 442.7587365064279,
+      "scale": 4.0
+    },
+    {
+      "task": "lookup",
+      "length": 31,
+      "examples": 768,
+      "correct": 138,
+      "accuracy": 0.1796875,
+      "nll": 2.453371614217758,
+      "answer_perplexity": 11.627484094772734,
+      "scale": 1.0
+    },
+    {
+      "task": "lookup",
+      "length": 31,
+      "examples": 768,
+      "correct": 137,
+      "accuracy": 0.17838541666666666,
+      "nll": 2.4363685250282288,
+      "answer_perplexity": 11.431452241991554,
+      "scale": 4.0
+    },
+    {
+      "task": "lookup",
+      "length": 63,
+      "examples": 768,
+      "correct": 96,
+      "accuracy": 0.125,
+      "nll": 2.699722468852997,
+      "answer_perplexity": 14.87560270885191,
+      "scale": 1.0
+    },
+    {
+      "task": "lookup",
+      "length": 63,
+      "examples": 768,
+      "correct": 118,
+      "accuracy": 0.15364583333333334,
+      "nll": 2.6481086810429892,
+      "answer_perplexity": 14.127294142932058,
+      "scale": 4.0
+    },
+    {
+      "task": "lookup",
+      "length": 127,
+      "examples": 768,
+      "correct": 71,
+      "accuracy": 0.09244791666666667,
+      "nll": 2.8308868606885276,
+      "answer_perplexity": 16.96049575355359,
+      "scale": 1.0
+    },
+    {
+      "task": "lookup",
+      "length": 127,
+      "examples": 768,
+      "correct": 76,
+      "accuracy": 0.09895833333333333,
+      "nll": 2.7945118645826974,
+      "answer_perplexity": 16.354643523637854,
+      "scale": 4.0
+    }
+  ],
+  "elapsed_seconds": 34.54857730004005
+}

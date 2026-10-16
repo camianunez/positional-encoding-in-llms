@@ -1,0 +1,165 @@
+[
+  {
+    "figure": "rotation",
+    "kind": "mathematical",
+    "dimension": 2,
+    "domain": "common shift: 0 and 1.4 radians",
+    "script": "scripts/diagnostics.py",
+    "data": [
+      "experiments/diagnostics/geometry.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "number": 1
+  },
+  {
+    "figure": "frequencies",
+    "kind": "mathematical",
+    "dimension": [
+      8,
+      64
+    ],
+    "domain": "positions 0..127; geometric periods",
+    "script": "scripts/diagnostics.py",
+    "data": [
+      "experiments/diagnostics/geometry.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "representation": "Signed cosine matrix and logarithmic period plot.",
+    "number": 2
+  },
+  {
+    "figure": "decay",
+    "kind": "mathematical",
+    "dimension": 64,
+    "domain": "integer offsets 0..8192",
+    "script": "scripts/diagnostics.py",
+    "data": [
+      "experiments/diagnostics/geometry.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "aggregation": "Means and exact min/max within consecutive 128-offset blocks, including the final endpoint.",
+    "number": 3
+  },
+  {
+    "figure": "no-guaranteed-decay",
+    "kind": "mathematical",
+    "dimension": 64,
+    "domain": "Gaussian RMS: 0..10000; constructed maximum: offsets 5872..6128 around 6000.",
+    "script": "scripts/diagnostics.py",
+    "data": [
+      "experiments/diagnostics/geometry.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "number": 4
+  },
+  {
+    "figure": "generators",
+    "kind": "mathematical",
+    "dimension": 2,
+    "domain": "time 0..30; origins 0..30 at displacement 3",
+    "script": "scripts/diagnostics.py",
+    "data": [
+      "experiments/diagnostics/geometry.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "representation": "Radial factors exp(u*t) for t in 0..30; query-key attenuation at fixed displacement 3.",
+    "number": 5
+  },
+  {
+    "figure": "scaling-softmax",
+    "kind": "schematic",
+    "dimension": 64,
+    "domain": "one frequency 0.1; 16,64,128 candidate keys",
+    "script": "scripts/diagnostics.py",
+    "data": [
+      "experiments/diagnostics/geometry.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "number": 6
+  },
+  {
+    "figure": "base-tradeoff",
+    "kind": "mathematical",
+    "dimension": 64,
+    "domain": "bases 10,100,10000,1000000; offsets 128..16384",
+    "script": "scripts/diagnostics.py",
+    "data": [
+      "experiments/diagnostics/geometry.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "number": 7
+  },
+  {
+    "figure": "benchmark-accuracy",
+    "kind": "trained decoder",
+    "dimension": 16,
+    "domain": "six methods, three seeds, two tasks; see protocol",
+    "script": "scripts/report.py",
+    "data": [
+      "experiments/results/metrics.csv",
+      "experiments/results/summary.json",
+      "experiments/results/environment.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "representation": "Faceted point-and-whisker plots: seed means and sample standard deviations.",
+    "number": 8
+  },
+  {
+    "figure": "benchmark-ppl",
+    "kind": "trained decoder",
+    "dimension": 16,
+    "domain": "six methods, three seeds, two tasks; see protocol",
+    "script": "scripts/report.py",
+    "data": [
+      "experiments/results/metrics.csv",
+      "experiments/results/summary.json",
+      "experiments/results/environment.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "representation": "Faceted point-and-whisker plots: seed means and sample standard deviations.",
+    "number": 9
+  },
+  {
+    "figure": "training-curves",
+    "kind": "trained decoder",
+    "dimension": 16,
+    "domain": "six methods, three seeds, two tasks; see protocol",
+    "script": "scripts/report.py",
+    "data": [
+      "experiments/results/metrics.csv",
+      "experiments/results/summary.json",
+      "experiments/results/environment.json",
+      "experiments/results/alibi-11.json",
+      "experiments/results/alibi-22.json",
+      "experiments/results/alibi-33.json",
+      "experiments/results/learned-11.json",
+      "experiments/results/learned-22.json",
+      "experiments/results/learned-33.json",
+      "experiments/results/none-11.json",
+      "experiments/results/none-22.json",
+      "experiments/results/none-33.json",
+      "experiments/results/rope-11.json",
+      "experiments/results/rope-22.json",
+      "experiments/results/rope-33.json",
+      "experiments/results/single_rope-11.json",
+      "experiments/results/single_rope-22.json",
+      "experiments/results/single_rope-33.json",
+      "experiments/results/sinusoidal-11.json",
+      "experiments/results/sinusoidal-22.json",
+      "experiments/results/sinusoidal-33.json"
+    ],
+    "style": "scripts/figure_style.py",
+    "preferred_format": "svg",
+    "representation": "Per-method seed mean with an exact min/max band at each recorded update.",
+    "number": 10
+  }
+]

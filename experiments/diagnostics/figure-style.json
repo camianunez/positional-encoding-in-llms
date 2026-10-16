@@ -1,0 +1,19 @@
+{
+  "edition": "Permanent dark academic edition",
+  "preferred_format": "SVG",
+  "additional_format": "PNG at 240 dpi",
+  "source": "scripts/figure_style.py",
+  "background": "#171c23",
+  "text": "#dce1e7",
+  "palette": {
+    "blue": "#9bbdd8",
+    "ochre": "#d8b984",
+    "green": "#9dbfae",
+    "lavender": "#b9add3",
+    "rose": "#cf9fa5",
+    "slate": "#9aa6b6"
+  },
+  "mathematical_summary": "Exact block means and min/max ranges where stated; no inferred uncertainty.",
+  "empirical_summary": "Sample mean and sample standard deviation across three training seeds; training-loss bands show seed min/max.",
+  "export": "Native vector SVG with outlined glyphs, deterministic metadata, and shared typography; high-resolution PNG companion."
+}

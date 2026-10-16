@@ -1,0 +1,9 @@
+{
+  "numpy": "2.5.4",
+  "matplotlib": "3.10.7",
+  "report_source_sha256": "98565cc318938e536d91faf4806f1d0990a6f41e6707db05c1a6c916ec2cbeb7",
+  "diagnostics_source_sha256": "fa7a1677afb5154067d9c523f8b45e0ea06ad7e6222822887f77860ed8e90ce4",
+  "style_source_sha256": "4dad02f3c854a0b4b5a07c30f01731d4edfc6deece25f013cf2b69951a612754",
+  "preferred_format": "SVG",
+  "background": "#171c23"
+}

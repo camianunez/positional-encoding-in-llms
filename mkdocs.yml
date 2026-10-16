@@ -1,0 +1,50 @@
+site_name: Positional Encoding in LLMs
+site_description: Rotary positional embeddings, relative attention, and context-length generalization.
+site_author: camianunez
+site_url: https://camianunez.github.io/positional-encoding-in-llms/
+repo_url: https://github.com/camianunez/positional-encoding-in-llms
+repo_name: camianunez/positional-encoding-in-llms
+edit_uri: edit/main/docs/
+theme:
+  name: material
+  custom_dir: overrides
+  font: false
+  palette:
+    scheme: slate
+    primary: custom
+    accent: custom
+  features:
+    - content.code.copy
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+  - toc:
+      permalink: true
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+extra_css:
+  - stylesheets/book.css
+nav:
+  - Overview and contents: index.md
+  - 1. Position information in attention: 01-order.md
+  - 2. Rotary transformations and relative position: 02-rotation.md
+  - 3. Frequency spectra and positional representations: 03-frequencies.md
+  - 4. Phase cancellation and distance dependence: 04-decay.md
+  - 5. Matrix generators and stability: 05-generators.md
+  - 6. RoPE in autoregressive Transformers: 06-llms.md
+  - 7. Context extension and position scaling: 07-long-context.md
+  - 8. Evaluation criteria and experimental protocol: 08-evaluation.md
+  - 9. Empirical results and limitations: 09-results.md
+  - 10. Reference implementation and verification: 10-implementation.md
+  - 11. Technical exercises and terminology: 11-exercises.md
+  - Reproducibility and publication: reproduce.md
+  - Source document and mathematical assumptions: source-notes.md
+  - Research and software references: references.md

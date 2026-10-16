@@ -1,0 +1,23 @@
+<header class="md-header book-header" data-md-component="header">
+  <nav class="md-header__inner md-grid book-header__inner" aria-label="Book navigation">
+    <a href="{{ nav.homepage.url | url }}" class="book-wordmark">{{ config.site_name }}</a>
+    <div class="book-header__links">
+      {% if page.previous_page %}<a class="book-adjacent" href="{{ page.previous_page.url | url }}">Previous</a>{% endif %}
+      {% if page.next_page %}<a class="book-adjacent" href="{{ page.next_page.url | url }}">Next</a>{% endif %}
+      <details class="book-sections">
+        <summary>Sections</summary>
+        <nav aria-label="Chapter index">
+          {% for item in nav %}<a href="{{ item.url | url }}"{% if item.active %} aria-current="page"{% endif %}>{{ item.title }}</a>{% endfor %}
+          <a href="{{ 'explorer.html' | url }}">Interactive phase analysis</a>
+        </nav>
+      </details>
+      <a class="book-repository" href="{{ config.repo_url }}">GitHub</a>
+    </div>
+    {% if "material/search" in config.plugins %}
+      <label class="md-header__button md-icon book-search-button" for="__search" aria-label="Search the book">
+        {% include ".icons/material/magnify.svg" %}
+      </label>
+      {% include "partials/search.html" %}
+    {% endif %}
+  </nav>
+</header>

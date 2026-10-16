@@ -1,0 +1,11 @@
+.vendor/
+.venv/
+.tools/
+__pycache__/
+.pytest_cache/
+*.pyc
+site/
+artifacts/
+experiments/checkpoints/
+experiments/pilot/
+publication.json

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Position-dependent rotation analysis · Positional Encoding in LLMs</title>
+<style>
+:root{color-scheme:dark;--paper:#17191d;--panel:#171c23;--ink:#dfdfda;--muted:#a5afbb;--rule:#343a43;--blue:#9bbdd8;--ochre:#d8b984}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.7 Georgia,"Times New Roman",serif}
+main{max-width:960px;margin:auto;padding:30px 30px 50px}
+a{color:var(--blue);text-underline-offset:3px}
+h1,h2,button,label,select,.caption,table,.kicker{font-family:Arial,Helvetica,sans-serif}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:600;letter-spacing:-.025em;line-height:1.2;margin:22px 0}
+h2{font-size:1.12rem;font-weight:600;letter-spacing:-.01em;margin:0 0 16px}
+.kicker{font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:26px}
+.card{background:transparent;border:0;border-top:1px solid var(--rule);padding:26px 0;margin:26px 0 0}
+.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+label{font-weight:400;display:block;font-size:.8rem;color:#cbd2db;margin-bottom:8px}
+select,input{width:100%;font:inherit;accent-color:var(--blue)}
+select{padding:8px;background:#202630;color:var(--ink);border:1px solid #414c59;border-radius:0;font-size:.82rem}
+button{font-size:.8rem;padding:9px 14px;background:#243446;color:#c4d9e8;border:1px solid #52697d;border-radius:0;cursor:pointer;margin:23px 9px 0 0}
+button:hover{background:#2d4157}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;font-family:Arial,Helvetica,sans-serif;font-size:.8rem;color:var(--muted)}
+.stat strong{display:block;font:1.55rem/1.4 Georgia,"Times New Roman",serif;font-variant-numeric:tabular-nums;color:var(--ink);margin-top:6px}
+canvas{display:block;width:100%;background:var(--panel)}
+.caption{font-size:.8rem;line-height:1.6;color:var(--muted)}
+.blue{color:var(--blue)}.orange{color:var(--ochre)}
+table{border-collapse:collapse;width:100%;font-size:.8rem;font-variant-numeric:tabular-nums;margin:20px 0}
+th,td{text-align:right;padding:10px 9px;border-bottom:1px solid var(--rule);font-weight:400}
+th{color:#d8dfe7;border-bottom-color:#657180}
+th:first-child,td:first-child{text-align:left}.scroll{overflow-x:auto}
+@media(max-width:650px){body{font-size:17px}main{padding:20px}.controls{grid-template-columns:1fr 1fr;gap:20px}.stats{grid-template-columns:1fr;gap:18px}.stat{display:flex;justify-content:space-between;align-items:center}.stat strong{font-size:1.3rem;margin:0}table{font-size:.72rem}h1{font-size:1.9rem}.card{padding-top:23px}}
+</style>
+</head>
+<body>
+<main>
+<a href="https://camianunez.github.io/positional-encoding-in-llms/">← Positional Encoding in LLMs</a>
+<p class="kicker">Numerical appendix</p>
+<h1>Position-dependent rotations and phase similarity</h1>
+<p>Numerical evaluation of RoPE under configurable positions, frequency bases, and interpolation factors.
+Both content vectors have pair coordinates (1, 0). Their normalized dot product therefore equals the phase kernel C.</p>
+<section class="card" aria-label="Explorer controls">
+<div class="controls">
+<div><label for="query">Query position s: <output id="queryValue">32</output></label><input id="query" type="range" min="0" max="4096" value="32"></div>
+<div><label for="key">Key position t: <output id="keyValue">16</output></label><input id="key" type="range" min="0" max="4096" value="16"></div>
+<div><label for="dim">Head dimension</label><select id="dim"><option>2</option><option>8</option><option>16</option><option selected>64</option></select></div>
+<div><label for="base">Frequency base B</label><select id="base"><option value="100">100</option><option value="10000" selected>10,000</option><option value="1000000">1,000,000</option></select></div>
+<div><label for="scale">Divide positions by</label><select id="scale"><option value="1" selected>1 (original)</option><option value="2">2</option><option value="4">4</option><option value="8">8</option></select></div>
+</div>
+<button id="shift" type="button">Apply common shift: +20</button><button id="reset" type="button">Reset</button>
+<p class="caption">A common shift preserves the relative code. Dividing positions changes the code for a given token distance.</p>
+</section>
+<section class="card stats" aria-live="polite" aria-atomic="true">
+<div class="stat">Displacement t − s<strong id="delta"></strong></div>
+<div class="stat">Phase similarity C<strong id="similarity"></strong></div>
+<div class="stat">Normalized phase distance<strong id="distance"></strong></div>
+</section>
+<section class="card">
+<h2>Rotations in selected coordinate pairs</h2>
+<p><span class="blue">Query representation</span> · <span class="orange">Key representation</span>.
+All arrows have unit length. The table supplies the same information numerically.</p>
+<canvas id="rotations" role="img" aria-label="Query and key vectors in selected rotary subspaces"></canvas>
+<div class="scroll"><table><thead><tr><th>Pair</th><th>Radians/token</th><th>Period (tokens)</th><th>cos(relative phase)</th></tr></thead><tbody id="pairs"></tbody></table></div>
+</section>
+<section class="card">
+<h2>Normalized positional similarity over displacement</h2>
+<canvas id="kernel" role="img" aria-label="Mean cosine phase similarity over lags zero through 512"></canvas>
+<p class="caption">C(r) = mean cos(r × frequency / scale), for integer lags 0–512. C is even, so positive and negative displacements have the same kernel. The marker appears when the selected absolute lag is in this range. Oscillations and repeated peaks are visible; this is not a monotonic decay law.</p>
+</section>
+<p>These plots describe deterministic position geometry, not learned attention. C is neither a probability nor a complete model score.
+A causal model would additionally forbid keys after the query.</p>
+<p>Source code and measurements: <a href="https://github.com/camianunez/positional-encoding-in-llms">camianunez/positional-encoding-in-llms</a>.</p>
+</main>
+<script>
+"use strict";
+const el = id => document.getElementById(id);
+const controls = ["query","key","dim","base","scale"];
+function state() {
+  return {s:+el("query").value,t:+el("key").value,d:+el("dim").value,b:+el("base").value,a:+el("scale").value};
+}
+function frequencies(z) {return Array.from({length:z.d/2},(_,i)=>Math.pow(z.b,-2*i/z.d)/z.a);}
+function kernel(r,f) {return f.reduce((sum,t)=>sum+Math.cos(r*t),0)/f.length;}
+function prepare(id,height) {
+  const c=el(id),ratio=window.devicePixelRatio||1,w=c.clientWidth;
+  c.style.height=height+"px"; c.width=Math.round(w*ratio);c.height=Math.round(height*ratio);
+  const ctx=c.getContext("2d");ctx.scale(ratio,ratio);return {ctx:ctx,w:w,h:height};
+}
+function vector(ctx,cx,cy,r,angle,color) {
+  const x=cx+r*Math.cos(angle),y=cy-r*Math.sin(angle);
+  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=1.8;
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);ctx.stroke();
+  const direction=-angle;
+  ctx.beginPath();ctx.moveTo(x,y);
+  ctx.lineTo(x-9*Math.cos(direction-.4),y-9*Math.sin(direction-.4));
+  ctx.lineTo(x-9*Math.cos(direction+.4),y-9*Math.sin(direction+.4));ctx.closePath();ctx.fill();
+}
+function render() {
+  const z=state(),f=frequencies(z),delta=z.t-z.s,c=kernel(delta,f);
+  el("queryValue").textContent=z.s;el("keyValue").textContent=z.t;
+  el("delta").textContent=delta;el("similarity").textContent=c.toFixed(6);
+  el("distance").textContent=Math.sqrt(Math.max(0,2-2*c)).toFixed(6);
+  const picks=[...new Set([0,Math.floor((f.length-1)/3),Math.floor(2*(f.length-1)/3),f.length-1])];
+  const cols=el("rotations").clientWidth<600?2:4,rows=Math.ceil(picks.length/cols);
+  const plot=prepare("rotations",rows*205),ctx=plot.ctx,cell=plot.w/cols;
+  el("pairs").replaceChildren();
+  picks.forEach((i,index)=>{
+    const cx=cell*(index%cols+.5),cy=Math.floor(index/cols)*205+100,r=Math.min(65,cell*.35);
+    ctx.strokeStyle="#414c59";ctx.lineWidth=.7;ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);ctx.stroke();
+    vector(ctx,cx,cy,r,z.s*f[i],"#9bbdd8");vector(ctx,cx,cy,r,z.t*f[i],"#d8b984");
+    ctx.fillStyle="#dce1e7";ctx.font="13px system-ui";ctx.textAlign="center";
+    ctx.fillText("pair "+i,cx,cy-r-17);ctx.fillText("θ = "+f[i].toPrecision(3),cx,cy+r+25);
+    const row=document.createElement("tr");
+    [i,f[i].toPrecision(5),(2*Math.PI/f[i]).toFixed(2),Math.cos(delta*f[i]).toFixed(6)].forEach(v=>{
+      const td=document.createElement("td");td.textContent=v;row.appendChild(td);
+    });el("pairs").appendChild(row);
+  });
+  const graph=prepare("kernel",280),g=graph.ctx,w=graph.w,h=graph.h;
+  const left=45,right=w-18,top=18,bottom=h-40;
+  const x=r=>left+(right-left)*r/512,y=v=>bottom-(v+1)*(bottom-top)/2;
+  g.font="12px system-ui";g.textAlign="right";
+  [-1,-.5,0,.5,1].forEach(v=>{
+    g.strokeStyle="#303945";g.beginPath();g.moveTo(left,y(v));g.lineTo(right,y(v));g.stroke();
+    g.fillStyle="#a5afbb";g.fillText(v.toFixed(1),left-7,y(v)+4);
+  });
+  g.textAlign="center";
+  [0,128,256,384,512].forEach(r=>{g.fillStyle="#a5afbb";g.fillText(r,x(r),bottom+21);});
+  g.fillText("Lag r (tokens)",(left+right)/2,h-3);
+  g.strokeStyle="#9bbdd8";g.lineWidth=1.5;g.beginPath();
+  for(let r=0;r<=512;r++){if(r===0)g.moveTo(x(r),y(kernel(r,f)));else g.lineTo(x(r),y(kernel(r,f)));}
+  g.stroke();
+  if(Math.abs(delta)<=512){
+    const px=x(Math.abs(delta)),py=y(c);g.fillStyle="#d8b984";g.beginPath();g.arc(px,py,5,0,2*Math.PI);g.fill();
+  }
+  el("shift").disabled=z.s>4076&&z.t<20 || z.t>4076&&z.s<20;
+  const step=Math.max(z.s,z.t)+20<=4096?20:-20;
+  el("shift").textContent="Apply common shift: "+(step>0?"+":"")+step;
+}
+controls.forEach(id=>el(id).addEventListener("input",render));
+el("shift").addEventListener("click",()=>{
+  const z=state(),step=Math.max(z.s,z.t)+20<=4096?20:-20;
+  el("query").value=z.s+step;el("key").value=z.t+step;render();
+});
+el("reset").addEventListener("click",()=>{
+  [["query",32],["key",16],["dim",64],["base",10000],["scale",1]].forEach(v=>{el(v[0]).value=v[1];});render();
+});
+window.addEventListener("resize",render);
+render();
+</script>
+</body>
+</html>
